@@ -1,10 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,16 +22,3 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-<header>
-    <!-- Header content will be included from navbar.php -->
-</header>
-<main class="flex">
-    <!-- Sidebar will be included from sidebar.php -->
-    <div id="sidebar-container"></div>
-    <div id="content-container" class="flex-1">
-        <!-- Main content will be included here -->
-    </div>
-</main>
-<footer>
-    <!-- Footer content will be included from footer.php -->
-</footer>

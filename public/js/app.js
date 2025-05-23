@@ -229,4 +229,140 @@ $(document).ready(function () {
       },
     });
   });
+
+  $("#assignmentForm").submit(function (e) {
+    e.preventDefault();
+
+    $.ajax({
+      type: "POST",
+      url: "../routes/index.php",
+      data: $(this).serialize() + "&action=assignTasksToAllStudents",
+      success: function (response) {
+        try {
+          const res = JSON.parse(response);
+          if (res.status === "success") {
+            Swal.fire({
+              icon: "success",
+              title: res.message,
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: res.message,
+            });
+          }
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+          });
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error("AJAX Error:", textStatus, errorThrown);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      },
+    });
+  });
+
+  $(document).on("click", ".mark-done", function () {
+    var assignmentId = $(this).data("id");
+    $.ajax({
+      type: "POST",
+      url: "../routes/index.php",
+      data: {
+        action: "markAssignmentAsDone",
+        assignment_id: assignmentId,
+      },
+      success: function (response) {
+        var res = JSON.parse(response);
+        if (res.status === "success") {
+          Swal.fire({
+            icon: "success",
+            title: res.message,
+            timer: 1500,
+          }).then(() => {
+            location.reload(); // Reload the page to update the assignments
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: res.message,
+          });
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error("AJAX Error:", textStatus, errorThrown);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      },
+    });
+  });
+  $(document).ready(function () {
+    $("#batchDeleteForm").submit(function (e) {
+      e.preventDefault();
+
+      const selectedAssignments = $('input[name="assignment_ids[]"]:checked');
+      if (selectedAssignments.length === 0) {
+        Swal.fire({
+          icon: "warning",
+          title: "No assignments selected",
+          text: "Please select at least one assignment to delete.",
+        });
+        return;
+      }
+
+      $.ajax({
+        type: "POST",
+        url: "../routes/index.php",
+        data: $(this).serialize() + "&action=batchDeleteAssignments",
+        success: function (response) {
+          try {
+            const res = JSON.parse(response);
+            if (res.status === "success") {
+              Swal.fire({
+                icon: "success",
+                title: res.message,
+                timer: 1500,
+              }).then(() => {
+                location.reload(); // Reload the page to reflect changes
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: res.message,
+              });
+            }
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error("AJAX Error:", textStatus, errorThrown);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+          });
+        },
+      });
+    });
+  });
 });

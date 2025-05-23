@@ -1,4 +1,5 @@
 <?php
+
 class UserInfo {
     private $conn;
     private $table_name = "user_info";

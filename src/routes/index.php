@@ -44,7 +44,27 @@ switch ($action) {
         $new_password = $_POST['new_password'];
         echo $controller->changePassword($user_id, $current_password, $new_password);
         break;
-
+    
+    case 'assignTasksToAllStudents':
+        $title = $_POST['title'];
+        $description = $_POST['description'];
+        $due_date = $_POST['due_date'];
+        echo $controller->assignTasksToAllStudents($title, $description, $due_date);
+        break;
+        
+    case 'getAllAssignments':
+        echo $controller->getAllAssignments();
+        break;
+        
+    case 'markAssignmentAsDone':
+        $assignment_id = $_POST['assignment_id'];
+        echo $controller->markAssignmentAsDone($assignment_id);
+        break;
+    case 'batchDeleteAssignments':
+        $assignment_ids = $_POST['assignment_ids'] ?? [];
+        echo $controller->batchDeleteAssignments($assignment_ids);
+        break;
+        
 
     default:
         echo json_encode(["status" => "error", "message" => "Invalid action."]);

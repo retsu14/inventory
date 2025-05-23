@@ -1,22 +1,21 @@
-<?php $title = "Dashboard";  include "../partials/header.php"; ?>
+<?php $title = "Dashboard"; include "../partials/header.php"; ?>
 
 <?php include "../components/navbar.php"; 
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
-    exit();
-}
+// if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+//     header("Location: login.php");
+//     exit();
+// }
 ?>
-<div class="flex">
-    <div><?php include "../components/sidebar.php" ?></div>
 
-    <div class="flex items-center justify-center h-screen  h-screen w-full" style="margin-left: 16rem">
-        <div class="bg-white p-8 rounded shadow-md w-96">
-            <h2 class="text-2xl mb-4">Welcome to your Dashboard!</h2>
+<main class="flex">
+    <aside><?php include "../components/sidebar.php" ?></aside>
+    <div class="flex items-center justify-center h-screen w-full bg-gray-50" style="margin-left: 16rem">
+        <div class="bg-white p-8 rounded shadow-md w-96 text-center">
+            <h2 class="text-2xl mb-4">Welcome!</h2>
             <p>You are logged in.</p>
         </div>
     </div>
-</div>
-
+</main>
 
 <?php include "../partials/footer.php" ?>
